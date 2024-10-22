@@ -16,7 +16,6 @@ class RegistrationController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validation des données
             $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'lastname' => 'required|string|max:255',
@@ -27,23 +26,17 @@ class RegistrationController extends Controller
                 'adress' => 'required|string|max:255',
             ]);
 
-            // Ajouter le rôle "user" par défaut
-            $data['role'] = 'user'; // Rôle par défaut
-
-            // Création de l'utilisateur
+            $data['role'] = 'user';
             $user = RegistrationModel::create($data);
 
-            // Redirection vers la vue "success"
             return redirect()->route('success');
 
         } catch (Exception $e) {
-            // Log de l'erreur
             logger($e->getMessage());
 
-            // Message d'erreur
             session()->flash('error', 'Une erreur est survenue, veuillez réessayer.');
 
-            return view('formulaire'); // Retourne au formulaire en cas d'échec
+            return view('formulaire');
         }
     }
 }

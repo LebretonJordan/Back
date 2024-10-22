@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class RegistrationModel extends Model
 {
@@ -12,7 +13,10 @@ class RegistrationModel extends Model
     protected $table = 'user';
     protected $primaryKey = 'id';
 
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
+        'id',
         'name',
         'lastname',
         'society',
@@ -29,7 +33,9 @@ class RegistrationModel extends Model
         parent::boot();
 
         static::creating(function ($user) {
+            $user->id = (string) Str::uuid();
             $user->password = bcrypt($user->password);
         });
     }
 }
+

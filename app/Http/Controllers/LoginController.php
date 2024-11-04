@@ -8,41 +8,38 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
-     *
      * @return \Illuminate\View\View
      */
-    public function showLoginForm(): \Illuminate\View\View
-    {
-        return view('login');
-    }
 
     /**
-     *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function login(Request $request)
     {
+        // try {
+
         $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|max:3',
         ]);
+        // } catch (\Exception $e) {
+        //     dd($e);
 
+        // }
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+            Auth::user()->tokens()->delete();
 
-            return redirect('/');
+            $token = Auth::user()->createToken($request->email)->plainTextToken;
+
+            return ['token' => $token];
+
         }
 
-        return back()->withErrors([
-            'email' => 'Les informations d\'identification fournies ne sont pas correctes.',
-        ])->onlyInput('email');
+        return '';
     }
 
     /**
-     *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function logout(Request $request)

@@ -11,10 +11,13 @@ class RegistrationModel extends Model
     use HasFactory;
 
     protected $table = 'user';
+
     protected $primaryKey = 'id';
 
     public $incrementing = false;
+
     protected $keyType = 'string';
+
     protected $fillable = [
         'id',
         'name',
@@ -38,4 +41,3 @@ class RegistrationModel extends Model
         });
     }
 }
-

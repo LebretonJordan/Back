@@ -38,4 +38,3 @@ class ChangeIdToUuidInUserTable extends Migration
         });
     }
 }
-

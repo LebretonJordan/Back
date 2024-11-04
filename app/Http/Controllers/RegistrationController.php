@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\RegistrationModel;
 use Exception;
+use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
 {
-    public function create(): \Illuminate\View\View
-    {
-        return view('formulaire');
-    }
-
     public function store(Request $request)
     {
+
         try {
             $data = $request->validate([
                 'name' => 'required|string|max:255',
@@ -29,14 +25,14 @@ class RegistrationController extends Controller
             $data['role'] = 'user';
             $user = RegistrationModel::create($data);
 
-            return redirect()->route('success');
+            return 'hello';
 
         } catch (Exception $e) {
             logger($e->getMessage());
 
             session()->flash('error', 'Une erreur est survenue, veuillez réessayer.');
 
-            return view('formulaire');
+            return $e;
         }
     }
 }

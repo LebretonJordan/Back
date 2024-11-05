@@ -20,7 +20,7 @@ class LoginController extends Controller
 
         $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|max:3',
+            'password' => 'required',
         ]);
         // } catch (\Exception $e) {
         //     dd($e);

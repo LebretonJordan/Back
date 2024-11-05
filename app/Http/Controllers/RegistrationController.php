@@ -21,18 +21,15 @@ class RegistrationController extends Controller
                 'password' => 'required|min:8',
                 'adress' => 'required|string|max:255',
             ]);
-
             $data['role'] = 'user';
+
             $user = RegistrationModel::create($data);
 
-            return 'hello';
+            return response()->json([ 'code' => 200, 'status' => 'OK' ]);
 
         } catch (Exception $e) {
             logger($e->getMessage());
-
-            session()->flash('error', 'Une erreur est survenue, veuillez réessayer.');
-
-            return $e;
+            return response()->json([ 'code' => $e->status, 'error' => $e->getMessage() ]);
         }
     }
 }

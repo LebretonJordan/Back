@@ -16,16 +16,12 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        // try {
 
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        // } catch (\Exception $e) {
-        //     dd($e);
 
-        // }
 
         if (Auth::attempt($credentials)) {
             Auth::user()->tokens()->delete();

@@ -41,6 +41,7 @@
     "Create": "Create",
     "Create :name": "Create :name",
     "Created": "Created",
+    "Database error": "Database error",
     "Delete": "Delete",
     "Delete :name": "Delete :name",
     "Detach": "Detach",

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\RegistrationModel;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades;
+
 
 class RegistrationController extends Controller
 {
@@ -23,13 +28,23 @@ class RegistrationController extends Controller
             ]);
             $data['role'] = 'user';
 
-            $user = RegistrationModel::create($data);
+            RegistrationModel::create($data);
 
-            return response()->json([ 'code' => 200, 'status' => 'OK' ]);
+            return response()->json();
 
+        } catch (ValidationException $e) {
+            return response()->json([
+                'error' => $e->errors(),
+            ], 422);
+        } catch (QueryException $e) {
+            return response()->json([
+                'error' => __("Database error") . ': ' . $e->getMessage()
+            ], 500);
         } catch (Exception $e) {
             logger($e->getMessage());
-            return response()->json([ 'code' => $e->status, 'error' => $e->getMessage() ]);
+            return response()->json([
+                'error' => __("Internal Server Error")
+            ], 500);
         }
     }
 }

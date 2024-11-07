@@ -20,6 +20,7 @@ class Kernel extends HttpKernel
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \App\Http\Middleware\CorsMiddleware::class,
         \App\Http\Middleware\Cors::class,
+        \App\Http\Middleware\JsonUnescapedUnicode::class,
     ];
 
     /**
